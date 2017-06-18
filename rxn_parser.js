@@ -5,6 +5,29 @@
 
 "use restrict";
 
+// Extend String trim method.
+if (typeof(String.prototype.trim) === 'undefined') {
+    String.prototype.trim = function() {
+        return String(this).replace(/^\s+|\s+/g, '');
+    };
+}
+
+/* Class for chemical state */
+var ChemState = function(chemState) {
+    this.chemState = chemState;
+};
+
+ChemState.prototype.toList = function() {
+    var formulaList = [];
+    var formulaStrs = this.chemState.split('+');
+    for (var i = 0; i < formulaStrs.length; i++) {
+        var formula = new ChemFormula(formulaStrs[i].trim());
+        formulaList.push(formula);
+    }
+
+    return formulaList;
+};
+
 /* Class for chemical formula object. */
 var ChemFormula = function(formula) {
     this.formula = formula;
@@ -27,7 +50,8 @@ Object.defineProperties(ChemFormula.prototype, {
 /* Prototype methods defintions for ChemFormula */
 
 /* Get essential components */
-ChemFormula.prototype.split = function() { if (this.formulaRegex.test(this.formula)) {
+ChemFormula.prototype.split = function() {
+    if (this.formulaRegex.test(this.formula)) {
         var match = this.formulaRegex.exec(this.formula);
         this.stoich = match[1] ? parseInt(match[1]) : 1;  // stoichiometric
         this.species_site = match[2];                     // species and site
