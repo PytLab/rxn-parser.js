@@ -1,15 +1,13 @@
 {
   "name": "rxn_parser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Javascript version of elementary reaction expression parser",
   "main": "rxn_parser.js",
   "directories": {
     "test": "tests"
   },
   "dependencies": {
-    "chai": "4.0.2"
-  },
-  "devDependencies": {
+    "chai": "4.0.2",
     "mocha": "3.4.2"
   },
   "scripts": {
