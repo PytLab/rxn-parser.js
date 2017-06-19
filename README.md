@@ -1,6 +1,6 @@
-## rxn-parser.js
+# rxn-parser.js
 
-### Javascript version of elementary reaction expression parser
+## Javascript version of elementary reaction expression parser
 
 ### Install
 
@@ -10,7 +10,7 @@ npm install rxn_parser
 
 ### Test
 
-```
+``` shell
 npm test
 ```
 
@@ -19,7 +19,7 @@ npm test
 ``` javascript
 > var RxnEquation = require('./rxn_parser.js').RxnEquation;
 > var ChemState = require('./rxn_parser.js').ChemState;
-> var ChemFormula = require('').ChemFormula;
+> var ChemFormula = require('./rxn_parser.js').ChemFormula;
 
 // Operate chemial equation.
 > var equation = new RxnEquation('CO_s + O_s <-> CO-O_s + 2*_s -> CO2_g + 2*_s');
