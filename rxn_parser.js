@@ -44,6 +44,19 @@ RxnEquation.prototype.toList = function() {
     return chemStates;
 };
 
+/* Check equation conservation */
+RxnEquation.prototype.checkConservation = function() {
+    var chemStates = this.toList();
+
+    var first = chemStates[0];
+    for (var i = 1; i < chemStates.length; i++) {
+        first.conserve(chemStates[i]);
+    }
+
+    // If passed all checks, return true.
+    return true;
+};
+
 
 /* Class for chemical state */
 var ChemState = function(chemState) {
@@ -224,7 +237,9 @@ ChemFormula.prototype.getElementNumber = function() {
 /* Return the site type and its number */
 ChemFormula.prototype.getSiteNumber = function() {
     var siteNumber = {}
-    siteNumber[this.site] = this.stoich*this.nsite;
+    if (this.site != 'l' && this.site != 'g') {
+        siteNumber[this.site] = this.stoich*this.nsite;
+    }
     return siteNumber;
 };
 

@@ -84,7 +84,6 @@ describe('rxn-parser', function() {
             var siteNums = s.getSiteNumber();
             assert.equal(siteNums['s'], 1);
             assert.equal(siteNums['t'], 2);
-            assert.equal(siteNums['g'], 1);
         });
 
         it('chemstate object should check the conservation correctly ', function() {
@@ -118,6 +117,15 @@ describe('rxn-parser', function() {
             assert.equal(states[0].chemState, 'CO_s + O_s');
             assert.equal(states[1].chemState, 'CO-O_s + *_s');
             assert.equal(states[2].chemState, 'CO2_g + 2*_s');
+        });
+
+        it('RxnEquation object can check the conservation correctly', function() {
+            var r = new RxnEquation('CO_s + O_s <-> CO-O_s + *_s -> CO2_g + 2*_s');
+            assert.doesNotThrow(function() {r.checkConservation();});
+            r = new RxnEquation('CO_g + O_s <-> CO-O_s + *_s -> CO2_g + 2*_s');
+            assert.throws(function() {r.checkConservation();}, Error);
+            r = new RxnEquation('CO_s + O2_s <-> CO-O_s + *_s -> CO2_g + 2*_s');
+            assert.throws(function() {r.checkConservation();}, Error);
         });
     });
 });
