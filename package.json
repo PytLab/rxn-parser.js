@@ -1,0 +1,32 @@
+{
+  "name": "rxn-parser",
+  "version": "0.1.0",
+  "description": "Javascript version of elementary reaction expression parser",
+  "main": "rxn_parser.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "chai": "^4.0.2"
+  },
+  "devDependencies": {
+    "mocha": "^3.4.2"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PytLab/rxn-parser.js.git"
+  },
+  "keywords": [
+    "chemistry",
+    "catalyst"
+  ],
+  "author": "ShaoZhengjiang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PytLab/rxn-parser.js/issues"
+  },
+  "homepage": "https://github.com/PytLab/rxn-parser.js#readme"
+}
