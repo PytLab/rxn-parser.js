@@ -177,5 +177,6 @@ ChemFormula.prototype.conserve = function(another) {
 // Export to NodeJS module.
 if (typeof exports != 'undefined') {
     exports.ChemFormula = ChemFormula;
+    exports.ChemState = ChemState;
 }
 
