@@ -1,6 +1,7 @@
 var assert = require('chai').assert;
 var ChemFormula = require('../rxn_parser.js').ChemFormula;
 var ChemState = require('../rxn_parser.js').ChemState;
+var RxnEquation = require('../rxn_parser.js').RxnEquation;
 
 describe('rxn-parser', function() {
     describe('ChemFormula', function() {
@@ -96,6 +97,27 @@ describe('rxn-parser', function() {
 
             var s2 = new ChemState('2CO_s + HOO_2s');
             assert.throws(function() { s1.conserve(s2); }, Error);
+        });
+    });
+
+    describe('RxnEquation', function() {
+        it('RxnEquation object should be construct correctly', function() {
+            var r = new RxnEquation('CO_g + *_s -> CO_s');
+            assert.equal(r.rxnEquation, 'CO_g + *_s -> CO_s');
+            var r = new RxnEquation('CO_s + O_s <-> CO-O_s + *_s -> CO2_g + 2*_s');
+            assert.equal(r.rxnEquation, 'CO_s + O_s <-> CO-O_s + *_s -> CO2_g + 2*_s');
+        });
+
+        it('RxnEquation object should be splited correctly', function() {
+            var r = new RxnEquation('CO_g + *_s -> CO_s');
+            var states = r.toList();
+            assert.equal(states[0].chemState, 'CO_g + *_s');
+            assert.equal(states[1].chemState, 'CO_s');
+            var r = new RxnEquation('CO_s + O_s <-> CO-O_s + *_s -> CO2_g + 2*_s');
+            states = r.toList();
+            assert.equal(states[0].chemState, 'CO_s + O_s');
+            assert.equal(states[1].chemState, 'CO-O_s + *_s');
+            assert.equal(states[2].chemState, 'CO2_g + 2*_s');
         });
     });
 });

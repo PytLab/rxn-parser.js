@@ -12,6 +12,39 @@ if (typeof(String.prototype.trim) === 'undefined') {
     };
 }
 
+
+/* Class for chemical reaction equation */
+var RxnEquation = function(rxnEquation) {
+    this.rxnEquation = rxnEquation;
+};
+
+Object.defineProperties(RxnEquation.prototype, {
+    stateRegex: {
+        get: function() {
+            return /([^\<\>]*)(?:\<?\-\>)(?:([^\<\>]*)(?:\<?\-\>))?([^\<\>]*)/;
+        },
+    }
+});
+
+/* Split the rxn equation to state list */
+RxnEquation.prototype.toList = function() {
+    if (!this.stateRegex.test(this.rxnEquation)) {
+        var msg = 'Invalid reaction equation: ' + this.rxnEquation;
+        throw new Error(msg);
+    }
+
+    var match = this.stateRegex.exec(this.rxnEquation);
+    var chemStates = [];
+    for (var i = 1; i < 4; i++) {
+        if (match[i] != undefined) {
+            chemStates.push(new ChemState(match[i].trim()));
+        }
+    }
+
+    return chemStates;
+};
+
+
 /* Class for chemical state */
 var ChemState = function(chemState) {
     this.chemState = chemState;
@@ -258,5 +291,6 @@ ChemFormula.prototype.conserve = function(another) {
 if (typeof exports != 'undefined') {
     exports.ChemFormula = ChemFormula;
     exports.ChemState = ChemState;
+    exports.RxnEquation = RxnEquation;
 }
 
