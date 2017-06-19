@@ -69,6 +69,14 @@ describe('rxn-parser', function() {
             assert.equal(second.nsite, 1);
             assert.equal(second.stoich, 1);
         });
+
+        it('chemstate object should return correct elements and numbers', function() {
+            var s = new ChemState('CO_s + 2H2O_g');
+            var elemNums = s.getElementNumber();
+            assert.equal(elemNums['C'], 1);
+            assert.equal(elemNums['O'], 3);
+            assert.equal(elemNums['H'], 4);
+        });
     });
 });
 

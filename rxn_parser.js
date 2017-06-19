@@ -28,6 +28,26 @@ ChemState.prototype.toList = function() {
     return formulaList;
 };
 
+ChemState.prototype.getElementNumber = function() {
+    var formulaList = this.toList();
+    var elemNum;
+    var mergedElemNum = {};
+
+    for (var i = 0; i < formulaList.length; i++) {
+        elemNum = formulaList[i].getElementNumber();
+        for (var elem in elemNum) {
+            if (elem in mergedElemNum) {
+                mergedElemNum[elem] += elemNum[elem];
+            } else {
+                mergedElemNum[elem] = elemNum[elem];
+            }
+        }
+    }
+
+    return mergedElemNum;
+}
+
+
 /* Class for chemical formula object. */
 var ChemFormula = function(formula) {
     this.formula = formula;
