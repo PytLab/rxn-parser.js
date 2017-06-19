@@ -2,19 +2,21 @@
 
 ## Javascript version of elementary reaction expression parser
 
-### Install
+![https://api.travis-ci.org/PytLab/rxn-parser.js.svg?branch=master](https://travis-ci.org/PytLab/rxn-parser.js)
+
+## Install
 
 ``` shell
 npm install rxn_parser
 ```
 
-### Test
+## Test
 
 ``` shell
 npm test
 ```
 
-### Example
+## Example
 
 ``` javascript
 > var RxnEquation = require('./rxn_parser.js').RxnEquation;
