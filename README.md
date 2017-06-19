@@ -2,7 +2,7 @@
 
 ## Javascript version of elementary reaction expression parser
 
-![https://api.travis-ci.org/PytLab/rxn-parser.js.svg?branch=master](https://travis-ci.org/PytLab/rxn-parser.js)
+[![Build Status](https://travis-ci.org/PytLab/rxn-parser.js.svg?branch=master)](https://travis-ci.org/PytLab/rxn-parser.js)
 
 ## Install
 
