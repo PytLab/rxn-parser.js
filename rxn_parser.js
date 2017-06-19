@@ -16,6 +16,7 @@ if (typeof(String.prototype.trim) === 'undefined') {
 /* Class for chemical reaction equation */
 var RxnEquation = function(rxnEquation) {
     this.rxnEquation = rxnEquation;
+    this.chemStates = this.toList();
 };
 
 Object.defineProperties(RxnEquation.prototype, {
@@ -61,6 +62,7 @@ RxnEquation.prototype.checkConservation = function() {
 /* Class for chemical state */
 var ChemState = function(chemState) {
     this.chemState = chemState;
+    this.formulaList = this.toList();
 };
 
 /* Split the chemical state to formula list */
