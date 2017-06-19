@@ -77,6 +77,26 @@ describe('rxn-parser', function() {
             assert.equal(elemNums['O'], 3);
             assert.equal(elemNums['H'], 4);
         });
+
+        it('chemstate object should return correct elements and numbers', function() {
+            var s = new ChemState('CO_s + HO_2t + NO_g');
+            var siteNums = s.getSiteNumber();
+            assert.equal(siteNums['s'], 1);
+            assert.equal(siteNums['t'], 2);
+            assert.equal(siteNums['g'], 1);
+        });
+
+        it('chemstate object should check the conservation correctly ', function() {
+            var s1 = new ChemState('2CO_s + HOO_s');
+            var s2 = new ChemState('C_s + CO2_s + HO2_s');
+            assert.isTrue(s1.conserve(s2));
+
+            var s2 = new ChemState('2CO_s + HO_s');
+            assert.throws(function() { s1.conserve(s2); }, Error);
+
+            var s2 = new ChemState('2CO_s + HOO_2s');
+            assert.throws(function() { s1.conserve(s2); }, Error);
+        });
     });
 });
 

@@ -17,6 +17,7 @@ var ChemState = function(chemState) {
     this.chemState = chemState;
 };
 
+/* Split the chemical state to formula list */
 ChemState.prototype.toList = function() {
     var formulaList = [];
     var formulaStrs = this.chemState.split('+');
@@ -28,6 +29,7 @@ ChemState.prototype.toList = function() {
     return formulaList;
 };
 
+/* Get element names and its number pairs */
 ChemState.prototype.getElementNumber = function() {
     var formulaList = this.toList();
     var elemNum;
@@ -45,7 +47,65 @@ ChemState.prototype.getElementNumber = function() {
     }
 
     return mergedElemNum;
-}
+};
+
+/* Get site name and its number pairs */
+ChemState.prototype.getSiteNumber = function() {
+    var formulaList = this.toList();
+    var siteNum;
+    var mergedSiteNum = {};
+
+    for (var i = 0; i < formulaList.length; i++) {
+        siteNum = formulaList[i].getSiteNumber();
+        for (var site in siteNum) {
+            if (site in mergedSiteNum) {
+                mergedSiteNum[site] += siteNum[site];
+            } else {
+                mergedSiteNum[site] = siteNum[site];
+            }
+        }
+    }
+
+    return mergedSiteNum;
+};
+
+/* Check the conservation of two chemical state object */
+ChemState.prototype.conserve = function(another) {
+    if (another.constructor != ChemState) {
+        var msg = 'Parameter another must be a instance of ChemState';
+        throw new Error(msg);
+    }
+
+    // Check element number.
+    var elemNum1 = this.getElementNumber();
+    var elemNum2 = another.getElementNumber();
+
+    if (!isEquivalent(elemNum1, elemNum2)) {
+        var msg = ''
+            + 'Mass of chemical state '
+            + this.chemState
+            + ' and '
+            + another.chemState
+            + ' are not conservative';
+        throw new Error(msg);
+    }
+
+    // Check site number.
+    var siteNum1 = this.getSiteNumber();
+    var siteNum2 = another.getSiteNumber();
+
+    if (!isEquivalent(siteNum1, siteNum2)) {
+        var msg = ''
+            + 'Site of chemical state '
+            + this.chemState
+            + ' and '
+            + another.chemState
+            + ' are not conservative';
+        throw new Error(msg);
+    }
+
+    return true;
+};
 
 
 /* Class for chemical formula object. */
