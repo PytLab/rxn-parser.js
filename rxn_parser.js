@@ -12,6 +12,14 @@ if (typeof(String.prototype.trim) === 'undefined') {
     };
 }
 
+// Custom exception type.
+var RxnEquationError = function(message) {
+    this.name = 'RxnEquationError';
+    this.message = message || 'Invalid reaction equation expression';
+};
+
+RxnEquationError.prototype = Object.create(Error.prototype);
+RxnEquationError.prototype.constructor = RxnEquationError;
 
 /* Class for chemical reaction equation */
 var RxnEquation = function(rxnEquation) {
@@ -31,7 +39,7 @@ Object.defineProperties(RxnEquation.prototype, {
 RxnEquation.prototype.toList = function() {
     if (!this.stateRegex.test(this.rxnEquation)) {
         var msg = 'Invalid reaction equation: ' + this.rxnEquation;
-        throw new Error(msg);
+        throw new RxnEquationError(msg);
     }
 
     var match = this.stateRegex.exec(this.rxnEquation);
@@ -121,7 +129,7 @@ ChemState.prototype.getSiteNumber = function() {
 ChemState.prototype.conserve = function(another) {
     if (another.constructor != ChemState) {
         var msg = 'Parameter another must be a instance of ChemState';
-        throw new Error(msg);
+        throw new RxnEquationError(msg);
     }
 
     // Check element number.
@@ -135,7 +143,7 @@ ChemState.prototype.conserve = function(another) {
             + ' and '
             + another.chemState
             + ' are not conservative';
-        throw new Error(msg);
+        throw new RxnEquationError(msg);
     }
 
     // Check site number.
@@ -149,7 +157,7 @@ ChemState.prototype.conserve = function(another) {
             + ' and '
             + another.chemState
             + ' are not conservative';
-        throw new Error(msg);
+        throw new RxnEquationError(msg);
     }
 
     return true;
@@ -187,7 +195,7 @@ ChemFormula.prototype.split = function() {
         this.site = match[5];                             // site name
         this.nsite = match[4] ? parseInt(match[4]) : 1;   // site number
     } else {
-        throw new Error('Invalid chemical formula' + this.formula);
+        throw new RxnEquationError('Invalid chemical formula ' + this.formula);
     }
 };
 
@@ -270,7 +278,7 @@ var isEquivalent = function(objA, objB) {
 ChemFormula.prototype.conserve = function(another) {
     if (another.constructor != ChemFormula) {
         var msg = "Parameter another must be instance of ChemFormula";
-        throw new Error(msg);
+        throw new RxnEquationError(msg);
     }
 
     // Check element number.
@@ -284,7 +292,7 @@ ChemFormula.prototype.conserve = function(another) {
             + ' and '
             + another.formula
             + ' are not conservative';
-        throw new Error(msg);
+        throw new RxnEquationError(msg);
     }
 
     // Check site number.
@@ -298,7 +306,7 @@ ChemFormula.prototype.conserve = function(another) {
             + ' and '
             + another.formula
             + ' are not conservative';
-        throw new Error(msg);
+        throw new RxnEquationError(msg);
     }
 
     return true;
@@ -309,5 +317,6 @@ if (typeof exports != 'undefined') {
     exports.ChemFormula = ChemFormula;
     exports.ChemState = ChemState;
     exports.RxnEquation = RxnEquation;
+    exports.RxnEquationError = RxnEquationError;
 }
 

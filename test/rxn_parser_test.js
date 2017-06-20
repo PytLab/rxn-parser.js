@@ -2,6 +2,7 @@ var assert = require('chai').assert;
 var ChemFormula = require('../rxn_parser.js').ChemFormula;
 var ChemState = require('../rxn_parser.js').ChemState;
 var RxnEquation = require('../rxn_parser.js').RxnEquation;
+var RxnEquationError = require('../rxn_parser.js').RxnEquationError;
 
 describe('rxn-parser', function() {
     describe('ChemFormula', function() {
@@ -40,11 +41,11 @@ describe('rxn-parser', function() {
 
             // Site.
             f2 = new ChemFormula('H4O2_3s');
-            assert.throws(function() {f1.conserve(f2);}, Error);
+            assert.throws(function() {f1.conserve(f2);}, RxnEquationError);
 
             // Element.
             f2 = new ChemFormula('H3O2_6s');
-            assert.throws(function() {f1.conserve(f2);}, Error);
+            assert.throws(function() {f1.conserve(f2);}, RxnEquationError);
         });
     });
 
@@ -92,10 +93,10 @@ describe('rxn-parser', function() {
             assert.isTrue(s1.conserve(s2));
 
             var s2 = new ChemState('2CO_s + HO_s');
-            assert.throws(function() { s1.conserve(s2); }, Error);
+            assert.throws(function() { s1.conserve(s2); }, RxnEquationError);
 
             var s2 = new ChemState('2CO_s + HOO_2s');
-            assert.throws(function() { s1.conserve(s2); }, Error);
+            assert.throws(function() { s1.conserve(s2); }, RxnEquationError);
         });
     });
 
@@ -123,9 +124,9 @@ describe('rxn-parser', function() {
             var r = new RxnEquation('CO_s + O_s <-> CO-O_s + *_s -> CO2_g + 2*_s');
             assert.doesNotThrow(function() {r.checkConservation();});
             r = new RxnEquation('CO_g + O_s <-> CO-O_s + *_s -> CO2_g + 2*_s');
-            assert.throws(function() {r.checkConservation();}, Error);
+            assert.throws(function() {r.checkConservation();}, RxnEquationError);
             r = new RxnEquation('CO_s + O2_s <-> CO-O_s + *_s -> CO2_g + 2*_s');
-            assert.throws(function() {r.checkConservation();}, Error);
+            assert.throws(function() {r.checkConservation();}, RxnEquationError);
         });
     });
 });
