@@ -1,6 +1,6 @@
 {
   "name": "rxn_parser",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Javascript version of elementary reaction expression parser",
   "main": "rxn_parser.js",
   "directories": {
