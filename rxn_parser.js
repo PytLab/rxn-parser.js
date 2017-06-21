@@ -13,9 +13,10 @@ if (typeof(String.prototype.trim) === 'undefined') {
 }
 
 // Custom exception type.
-var RxnEquationError = function(message) {
+var RxnEquationError = function(message, htmlMsg) {
     this.name = 'RxnEquationError';
     this.message = message || 'Invalid reaction equation expression';
+    this.htmlMsg = htmlMsg || this.message;
 };
 
 RxnEquationError.prototype = Object.create(Error.prototype);
@@ -39,7 +40,12 @@ Object.defineProperties(RxnEquation.prototype, {
 RxnEquation.prototype.toList = function() {
     if (!this.stateRegex.test(this.rxnEquation)) {
         var msg = 'Invalid reaction equation: ' + this.rxnEquation;
-        throw new RxnEquationError(msg);
+        var htmlMsg = ''
+            + 'Invalid reaction equation: '
+            + '<span style="font-family: Courier New, consola">'
+            + this.rxnEquation
+            + '</span>'
+        throw new RxnEquationError(msg, htmlMsg);
     }
 
     var match = this.stateRegex.exec(this.rxnEquation);
@@ -143,7 +149,17 @@ ChemState.prototype.conserve = function(another) {
             + ' and '
             + another.chemState
             + ' are not conservative';
-        throw new RxnEquationError(msg);
+        var htmlMsg = ''
+            + 'Mass of chemical state '
+            + '<span style="font-family: Courier New, consola">'
+            + this.chemState
+            + '</span>'
+            + ' and '
+            + '<span style="font-family: Courier New, consola">'
+            + another.chemState
+            + '</span>'
+            + ' are not conservative';
+        throw new RxnEquationError(msg, htmlMsg);
     }
 
     // Check site number.
@@ -157,7 +173,17 @@ ChemState.prototype.conserve = function(another) {
             + ' and '
             + another.chemState
             + ' are not conservative';
-        throw new RxnEquationError(msg);
+        var htmlMsg = ''
+            + 'Site of chemical state '
+            + '<span style="font-family: Courier New, consola">'
+            + this.chemState
+            + '</span>'
+            + ' and '
+            + '<span style="font-family: Courier New, consola">'
+            + another.chemState
+            + '</span>'
+            + ' are not conservative';
+        throw new RxnEquationError(msg, htmlMsg);
     }
 
     return true;
@@ -195,7 +221,12 @@ ChemFormula.prototype.split = function() {
         this.site = match[5];                             // site name
         this.nsite = match[4] ? parseInt(match[4]) : 1;   // site number
     } else {
-        throw new RxnEquationError('Invalid chemical formula ' + this.formula);
+        var msg = 'Invalid chemical formula ' + this.formula;
+        var msg_html = 'Invalid chemical formula '
+            + '<span style="font-family: Courier New, consola">'
+            + this.formula
+            + '</span>';
+        throw new RxnEquationError(msg, msg_html);
     }
 };
 
@@ -292,7 +323,17 @@ ChemFormula.prototype.conserve = function(another) {
             + ' and '
             + another.formula
             + ' are not conservative';
-        throw new RxnEquationError(msg);
+        var htmlMsg = ''
+            + 'Mass of chemical formula '
+            + '<span style="font-family: Courier New, consola">'
+            + this.formula
+            + '</span>'
+            + ' and '
+            + '<span style="font-family: Courier New, consola">'
+            + another.formula
+            + '</span>'
+            + ' are not conservative';
+        throw new RxnEquationError(msg, htmlMsg);
     }
 
     // Check site number.
@@ -306,7 +347,17 @@ ChemFormula.prototype.conserve = function(another) {
             + ' and '
             + another.formula
             + ' are not conservative';
-        throw new RxnEquationError(msg);
+        var htmlMsg = ''
+            + 'Site of chemical formula '
+            + '<span style="font-family: Courier New, consola">'
+            + this.formula
+            + '</span>'
+            + ' and '
+            + '<span style="font-family: Courier New, consola">'
+            + another.formula
+            + '</span>'
+            + ' are not conservative';
+        throw new RxnEquationError(msg, htmlMsg);
     }
 
     return true;
@@ -319,4 +370,3 @@ if (typeof exports != 'undefined') {
     exports.RxnEquation = RxnEquation;
     exports.RxnEquationError = RxnEquationError;
 }
-
