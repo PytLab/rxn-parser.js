@@ -128,6 +128,16 @@ describe('rxn-parser', function() {
             r = new RxnEquation('CO_s + O2_s <-> CO-O_s + *_s -> CO2_g + 2*_s');
             assert.throws(function() {r.checkConservation();}, RxnEquationError);
         });
+
+        it('RxnEquation object can be splitted to correct formula list', function() {
+            var r = new RxnEquation('CO_g + *_s -> CO_s');
+            var formulaList = r.toFormulaList();
+            assert.equal(formulaList[0][0].species, 'CO');
+            assert.equal(formulaList[0][0].site, 'g');
+            assert.equal(formulaList[0][1].species, '*');
+            assert.equal(formulaList[0][1].site, 's');
+            assert.equal(formulaList[1][0].species, 'CO');
+            assert.equal(formulaList[1][0].site, 's');
+        });
     });
 });
-

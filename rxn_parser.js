@@ -59,6 +59,17 @@ RxnEquation.prototype.toList = function() {
     return chemStates;
 };
 
+/* Split the rxn equation to formula list */
+RxnEquation.prototype.toFormulaList = function() {
+    var formulaList = [];
+    var chemStates = this.toList();
+    for (var i = 0; i < chemStates.length; i++) {
+        formulaList.push(chemStates[i].toList());
+    }
+
+    return formulaList;
+};
+
 /* Check equation conservation */
 RxnEquation.prototype.checkConservation = function() {
     var chemStates = this.toList();
